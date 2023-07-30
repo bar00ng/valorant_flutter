@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 
+import 'package:valorant_app/data/constant.dart';
+
 class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: Center(
-          child: Image.asset(
-            'assets/images/splash_logo.png',
-            width: 200,
-            height: 200,
-          ),
-        ),
-      ),
-    );
+        backgroundColor: darkGrayColor,
+        body: Column(
+          children: [Text("test")],
+        ));
   }
 }

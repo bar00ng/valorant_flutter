@@ -6,25 +6,24 @@ import 'package:valorant_app/widgets/agents_widget.dart';
 import 'package:valorant_app/widgets/guns_widget.dart';
 import 'package:valorant_app/widgets/maps_widget.dart';
 
-const SizedBox mySizeBox = SizedBox(
-  height: 20,
-);
-
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkGrayColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           'Home',
           style: TextStyle(
             color: redColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
+        iconTheme: IconThemeData(
+          color: redColor, // Change the color of the back icon here
+        ),
         centerTitle: true, // Mengatur teks judul berada di tengah
-        backgroundColor: darkGrayColor,
-        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: SingleChildScrollView(
         child: Column(

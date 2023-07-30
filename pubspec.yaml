@@ -36,6 +36,8 @@ dependencies:
   flutter_walkthrough_screen: ^2.0.2
   google_fonts: ^5.1.0
   http: ^1.1.0
+  logger: ^2.0.1
+  page_transition: ^2.0.9
 
 dev_dependencies:
   flutter_lints: ^2.0.0

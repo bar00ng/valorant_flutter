@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:page_transition/page_transition.dart';
 import 'package:valorant_app/data/constant.dart';
+import 'package:logger/logger.dart';
 import 'dart:convert';
 import 'package:valorant_app/screens/map_detail_screen.dart';
 import 'package:valorant_app/widgets/content_widget.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+  ),
+);
 
 class MapsWidget extends StatefulWidget {
   @override
@@ -21,18 +29,22 @@ class _MapsWidgetState extends State<MapsWidget> {
   Future<void> fetchDataMaps() async {
     String request = 'https://valorant-api.com/v1/maps';
     try {
+      logger.t("Start Fetch API Maps");
       final response = await http.get(Uri.parse(request));
 
       if (response.statusCode == 200) {
         setState(() {
           _dataMaps = json.decode(response.body)['data'];
-          print('Sukses');
+          logger.i('Berhasil Feth API Maps');
         });
       } else {
-        print('Error');
+        logger.e('Error!', error: 'Terjadi Kesalahan Saat Fetch API Maps');
       }
     } catch (e) {
-      print('Error : $e');
+      logger.e(
+        'Error!',
+        error: e,
+      );
     }
   }
 
@@ -63,8 +75,9 @@ class _MapsWidgetState extends State<MapsWidget> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => MapDetailScreen(
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: MapDetailScreen(
                             uuid: mapUuid,
                             displayName: mapName,
                           ),
@@ -78,7 +91,7 @@ class _MapsWidgetState extends State<MapsWidget> {
                         children: [
                           ColorFiltered(
                             colorFilter: ColorFilter.mode(
-                                Colors.black.withOpacity(0.6),
+                                Colors.black.withOpacity(0.5),
                                 BlendMode.srcATop),
                             child: Image.network(
                               displayIconUrl,

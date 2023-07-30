@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:valorant_app/data/constant.dart';
+import 'package:page_transition/page_transition.dart';
 import 'dart:convert';
+import 'package:logger/logger.dart';
 
+import 'package:valorant_app/data/constant.dart';
 import 'package:valorant_app/screens/agent_detail_screen.dart';
 import 'package:valorant_app/widgets/content_widget.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+  ),
+);
 
 class AgentsWidget extends StatefulWidget {
   @override
@@ -23,18 +31,22 @@ class _AgentsWidgetState extends State<AgentsWidget> {
     String request =
         'https://valorant-api.com/v1/agents?isPlayableCharacter=true';
     try {
+      logger.t("Start Fetch API Agents");
       final response = await http.get(Uri.parse(request));
 
       if (response.statusCode == 200) {
         setState(() {
           _dataAgents = json.decode(response.body)['data'];
-          print('Sukses');
+          logger.i('Berhasil Feth API Agents');
         });
       } else {
-        print('Error');
+        logger.e('Error!', error: 'Terjadi Kesalahan Saat Fetch API Agents');
       }
     } catch (e) {
-      print('Error : $e');
+      logger.e(
+        'Error!',
+        error: e,
+      );
     }
   }
 
@@ -66,17 +78,19 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                          builder: (context) => AgentDetailScreen(
+                        PageTransition(
+                          type: PageTransitionType.fade,
+                          child: AgentDetailScreen(
                             uuid: uuid,
                             displayName: agentName,
                           ),
+                          duration: pageTrasitionDuration,
                         ),
                       );
                     },
                     child: Card(
                       elevation: 0,
-                      color: redColor,
+                      color: Colors.grey,
                       child: Container(
                         width: 150,
                         child: Column(
@@ -93,7 +107,7 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                             SizedBox(height: 3),
                             Container(
                               width: 150,
-                              color: darkGrayColor,
+                              color: Colors.white,
                               padding: EdgeInsets.all(
                                 8.0,
                               ),

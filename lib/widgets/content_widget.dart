@@ -1,4 +1,3 @@
-import 'package:valorant_app/main.dart';
 import 'package:flutter/material.dart';
 
 class ContentWidget extends StatelessWidget {

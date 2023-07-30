@@ -49,20 +49,20 @@ class _AgentDetailScreenState extends State<AgentDetailScreen> {
     // Build the UI to display the data fetched from the API
     // You can use the _data list here to display the relevant information
     return Scaffold(
-      backgroundColor: darkGrayColor,
+      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
           widget.displayName,
           style: TextStyle(
             color: redColor,
+            fontWeight: FontWeight.bold,
           ),
         ),
         iconTheme: IconThemeData(
           color: redColor, // Change the color of the back icon here
         ),
         centerTitle: true, // Mengatur teks judul berada di tengah
-        backgroundColor: darkGrayColor,
-        elevation: 0,
+        backgroundColor: Colors.white,
       ),
       body: Container(
         padding: EdgeInsets.all(15.0),

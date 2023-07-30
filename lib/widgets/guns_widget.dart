@@ -2,7 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:valorant_app/data/constant.dart';
 import 'dart:convert';
+import 'package:logger/logger.dart';
 import 'package:valorant_app/widgets/content_widget.dart';
+
+var logger = Logger(
+  printer: PrettyPrinter(
+    methodCount: 0,
+  ),
+);
 
 class GunsWidget extends StatefulWidget {
   @override
@@ -20,18 +27,22 @@ class _GunsWidgetState extends State<GunsWidget> {
   Future<void> fetcDataGuns() async {
     String request = 'https://valorant-api.com/v1/guns';
     try {
+      logger.t("Start Fetch API Guns");
       final response = await http.get(Uri.parse(request));
 
       if (response.statusCode == 200) {
         setState(() {
           _dataGuns = json.decode(response.body)['data'];
-          print('Sukses');
+          logger.i('Berhasil Feth API Guns');
         });
       } else {
-        print('Error');
+        logger.e('Error!', error: 'Terjadi Kesalahan Saat Fetch API Guns');
       }
     } catch (e) {
-      print('Error : $e');
+      logger.e(
+        'Error!',
+        error: e,
+      );
     }
   }
 
