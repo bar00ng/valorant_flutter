@@ -19,6 +19,7 @@ class HomeScreen extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
+        automaticallyImplyLeading: false,
         iconTheme: IconThemeData(
           color: redColor, // Change the color of the back icon here
         ),

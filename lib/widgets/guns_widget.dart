@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:valorant_app/data/constant.dart';
+import 'dart:async';
 import 'dart:convert';
 import 'package:logger/logger.dart';
+
+import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:valorant_app/data/constant.dart';
 import 'package:valorant_app/widgets/content_widget.dart';
 
 var logger = Logger(
@@ -11,41 +14,29 @@ var logger = Logger(
   ),
 );
 
-class GunsWidget extends StatefulWidget {
-  @override
-  _GunsWidgetState createState() => _GunsWidgetState();
+Future<List<dynamic>> fetchData() async {
+  String request = 'https://valorant-api.com/v1/weapons';
+
+  logger.t("Start fetch API guns");
+  final response = await http.get(Uri.parse(request));
+
+  if (response.statusCode == 200) {
+    logger.i('Berhasil fetch API guns');
+    final res = json.decode(response.body);
+    final data = res['data'];
+
+    return data;
+  } else {
+    logger.e(
+      'Error!',
+      error: 'Terjadi kesalahan saat fetch API guns',
+    );
+
+    throw Exception('Failed to load API');
+  }
 }
 
-class _GunsWidgetState extends State<GunsWidget> {
-  List<dynamic> _dataGuns = [];
-
-  void initState() {
-    super.initState();
-    fetcDataGuns();
-  }
-
-  Future<void> fetcDataGuns() async {
-    String request = 'https://valorant-api.com/v1/guns';
-    try {
-      logger.t("Start Fetch API Guns");
-      final response = await http.get(Uri.parse(request));
-
-      if (response.statusCode == 200) {
-        setState(() {
-          _dataGuns = json.decode(response.body)['data'];
-          logger.i('Berhasil Feth API Guns');
-        });
-      } else {
-        logger.e('Error!', error: 'Terjadi Kesalahan Saat Fetch API Guns');
-      }
-    } catch (e) {
-      logger.e(
-        'Error!',
-        error: e,
-      );
-    }
-  }
-
+class GunsWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,6 +47,47 @@ class _GunsWidgetState extends State<GunsWidget> {
           ContentWidget(
             title: 'Guns',
             description: 'Pelajari juga persenjataan kamu!',
+          ),
+          Container(
+            height: 200,
+            child: Center(
+              child: FutureBuilder<List<dynamic>>(
+                future: fetchData(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // Menampilkan loading animation ketika fetch data dari API
+                    return LoadingAnimationWidget.prograssiveDots(
+                      color: redColor,
+                      size: 25,
+                    );
+                  } else if (snapshot.hasError) {
+                    // Return persan error jika fetch API gagal
+                    return Text(
+                      'Error : ${snapshot.error}',
+                      style: TextStyle(
+                        color: redColor,
+                      ),
+                    );
+                  } else {
+                    // Jika berhasil fetch API
+                    final guns = snapshot.data!;
+
+                    return ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        final gun = guns[index];
+
+                        final displayName = gun['displayName'];
+
+                        return ListTile(
+                          title: Text(displayName),
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
           ),
         ],
       ),

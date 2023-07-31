@@ -36,6 +36,8 @@ dependencies:
   flutter_walkthrough_screen: ^2.0.2
   google_fonts: ^5.1.0
   http: ^1.1.0
+  info_popup: ^3.0.4
+  loading_animation_widget: ^1.2.0+4
   logger: ^2.0.1
   page_transition: ^2.0.9
 

@@ -26,7 +26,7 @@ class ContentWidget extends StatelessWidget {
           description,
           style: TextStyle(
             color: Color(0xFF808080),
-            fontSize: 12,
+            fontSize: 14,
             letterSpacing: 1,
           ),
         ),

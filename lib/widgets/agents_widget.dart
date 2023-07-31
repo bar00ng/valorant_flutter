@@ -73,7 +73,9 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                 var displayIcon = _dataAgents[index]['displayIcon'];
 
                 return Padding(
-                  padding: EdgeInsets.all(8.0),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: 8.0,
+                  ),
                   child: GestureDetector(
                     onTap: () {
                       Navigator.push(
@@ -84,7 +86,6 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                             uuid: uuid,
                             displayName: agentName,
                           ),
-                          duration: pageTrasitionDuration,
                         ),
                       );
                     },

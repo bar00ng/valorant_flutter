@@ -19,11 +19,11 @@ class MyApp extends StatelessWidget {
         fontFamily: GoogleFonts.poppins().fontFamily,
       ),
       home: AnimatedSplashScreen(
-        splash: SplashScreen(), // Ganti dengan gambar splash screen Anda
+        splash: SplashScreen(),
         nextScreen: WalktroughScreen(),
-        splashTransition: SplashTransition.rotationTransition,
-        pageTransitionType: PageTransitionType.fade,
-        duration: 3000, // Durasi animasi splash screen dalam milidetik
+        splashTransition: SplashTransition.scaleTransition,
+        pageTransitionType: PageTransitionType.leftToRight,
+        duration: 3000,
       ),
     );
   }
