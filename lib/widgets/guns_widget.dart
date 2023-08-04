@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'package:logger/logger.dart';
 
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:valorant_app/data/constant.dart';
+import 'package:valorant_app/screens/gun_detail_screen.dart';
 import 'package:valorant_app/widgets/content_widget.dart';
 
 var logger = Logger(
@@ -78,9 +80,24 @@ class GunsWidget extends StatelessWidget {
                         final gun = guns[index];
 
                         final displayName = gun['displayName'];
+                        final uuid = gun['uuid'];
 
-                        return ListTile(
-                          title: Text(displayName),
+                        return GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.fade,
+                                child: GunDetailScreen(
+                                  uuid: uuid,
+                                  displayName: displayName,
+                                ),
+                              ),
+                            );
+                          },
+                          child: ListTile(
+                            title: Text(displayName),
+                          ),
                         );
                       },
                     );

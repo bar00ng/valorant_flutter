@@ -35,10 +35,10 @@ class AgentDetailScreen extends StatelessWidget {
     } else {
       logger.e(
         'Error!',
-        error: 'Terjadi kesalahan saat data',
+        error: 'Terjadi kesalahan saat fetch data',
       );
 
-      throw Exception('Failed to data');
+      throw Exception('Failed to fetch data');
     }
   }
 
