@@ -16,7 +16,10 @@ class GunDetailScreen extends StatelessWidget {
   final String uuid;
   final String displayName;
 
-  GunDetailScreen({required this.uuid, required this.displayName});
+  GunDetailScreen({
+    required this.uuid,
+    required this.displayName,
+  });
 
   Future<Map<String, dynamic>> fetchData() async {
     String request = 'https://valorant-api.com/v1/weapons/$uuid?language=id-ID';
@@ -96,13 +99,16 @@ class GunDetailScreen extends StatelessWidget {
                         ),
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
                     GunShopCard(
                       gunName: displayName,
-                      gunPrice: weaponData['shopData']['cost'].toString(),
+                      gunPrice: weaponData['shopData']['cost'],
                       gunCategory: weaponData['shopData']['category'],
                     ),
                     const SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
                     Text(
                       'Stats',
@@ -194,7 +200,7 @@ class GunStatsCard extends StatelessWidget {
 
 class GunShopCard extends StatelessWidget {
   final String gunName;
-  final String gunPrice;
+  final int gunPrice;
   final String gunCategory;
 
   GunShopCard({
@@ -204,28 +210,30 @@ class GunShopCard extends StatelessWidget {
   });
 
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      padding: EdgeInsets.symmetric(
-        horizontal: 16.0,
-      ),
-      child: Center(
-        child: Card(
-          child: Container(
-            height: 50,
-            padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Column(
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Card(
+        elevation: 4,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 15.0,
+            vertical: 12.0,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       gunName,
                       style: TextStyle(
                         color: redColor,
-                        fontSize: 16,
+                        fontSize: 20,
                         fontWeight: FontWeight.bold,
                       ),
+                      textAlign: TextAlign.left,
                     ),
                     Text(
                       gunCategory,
@@ -236,14 +244,12 @@ class GunShopCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                Text(
-                  gunPrice,
-                  style: TextStyle(
-                    color: redColor,
-                  ),
-                ),
-              ],
-            ),
+              ),
+              Text(
+                '${gunPrice} VP',
+                style: TextStyle(color: redColor, fontSize: 16),
+              ),
+            ],
           ),
         ),
       ),

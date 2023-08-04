@@ -96,7 +96,12 @@ class GunsWidget extends StatelessWidget {
                             );
                           },
                           child: ListTile(
-                            title: Text(displayName),
+                            title: Text(
+                              displayName,
+                              style: TextStyle(
+                                color: Colors.grey,
+                              ),
+                            ),
                           ),
                         );
                       },
