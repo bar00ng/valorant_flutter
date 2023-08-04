@@ -3,8 +3,10 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:logger/logger.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:page_transition/page_transition.dart';
 
 import 'package:valorant_app/data/constant.dart';
+import 'package:valorant_app/screens/skill_detail_screen.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(
@@ -154,51 +156,67 @@ class AgentDetailScreen extends StatelessWidget {
                       itemCount: 4,
                       itemBuilder: (context, index) {
                         final ability = agentData['abilities'][index];
+
                         return Padding(
                           padding: const EdgeInsets.symmetric(
                             horizontal: 10.0,
                           ),
-                          child: Card(
-                            elevation: 0,
-                            color: Colors.white,
-                            child: Container(
-                              width: 150,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Expanded(
-                                    child: ColorFiltered(
-                                      colorFilter: ColorFilter.mode(
-                                          redColor, BlendMode.srcIn),
-                                      child: Image.network(
-                                        ability['displayIcon'] ?? '',
-                                        height: 100,
-                                        width: 100,
+                          child:GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      type: PageTransitionType.fade,
+                                      child: SkillDetailScreen(
+                                          skillDescription: ability['description'],
+                                          skillDisplayIcon: ability['displayIcon'],
+                                          skillName: ability['displayName'],
                                       ),
-                                    ),
                                   ),
-                                  const SizedBox(
-                                    height: 10,
-                                  ),
-                                  Container(
-                                    width: 150,
-                                    color: Colors.white,
-                                    padding: const EdgeInsets.all(
-                                      8.0,
-                                    ),
-                                    child: Align(
-                                      alignment: Alignment.center,
-                                      child: Text(
-                                        ability['displayName'] ?? '',
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color(0xFFfb3e44),
-                                          fontWeight: FontWeight.bold,
+                              );
+                            },
+                            child: Card(
+                              elevation: 0,
+                              color: Colors.white,
+                              child: Container(
+                                width: 150,
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Expanded(
+                                      child: ColorFiltered(
+                                        colorFilter: ColorFilter.mode(
+                                            redColor, BlendMode.srcIn),
+                                        child: Image.network(
+                                          ability['displayIcon'] ?? '',
+                                          height: 100,
+                                          width: 100,
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                    const SizedBox(
+                                      height: 10,
+                                    ),
+                                    Container(
+                                      width: 150,
+                                      color: Colors.white,
+                                      padding: const EdgeInsets.all(
+                                        8.0,
+                                      ),
+                                      child: Align(
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          ability['displayName'] ?? '',
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color: Color(0xFFfb3e44),
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
                               ),
                             ),
                           ),
