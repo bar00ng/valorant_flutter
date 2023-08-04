@@ -1,14 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:loading_animation_widget/loading_animation_widget.dart';
-import 'package:logger/logger.dart';
-import 'dart:convert';
+import 'package:http/http.dart'
+    as http; // Package http untuk melakukan HTTP request
+import 'package:loading_animation_widget/loading_animation_widget.dart'; // Package untuk menampilkan animasi loading
+import 'package:logger/logger.dart'; // Package logger untuk melakukan logging
+import 'dart:convert'; // Package untuk encoding/decoding JSON data
 
-import 'package:valorant_app/data/constant.dart';
+import 'package:valorant_app/data/constant.dart'; // Import file constant.dart yang berisi konstanta seperti warna, ukuran, dll.
 
 var logger = Logger(
   printer: PrettyPrinter(
-    methodCount: 0,
+    methodCount:
+        0, // Jumlah metode dalam log yang akan ditampilkan (0 agar hanya menampilkan log dari kode yang kita tulis)
   ),
 );
 
@@ -21,67 +23,86 @@ class GunDetailScreen extends StatelessWidget {
     required this.displayName,
   });
 
+  // Fungsi untuk mengambil data senjata dari API berdasarkan UUID
   Future<Map<String, dynamic>> fetchData() async {
-    String request = 'https://valorant-api.com/v1/weapons/$uuid?language=id-ID';
+    String request =
+        'https://valorant-api.com/v1/weapons/$uuid?language=id-ID'; // URL endpoint untuk mengambil data senjata dari API
 
-    logger.t("Start fetch data");
-    final response = await http.get(Uri.parse(request));
+    logger.t(
+        "Start fetch data"); // Log untuk menandai awal pengambilan data senjata dari API
+    final response =
+        await http.get(Uri.parse(request)); // Lakukan HTTP GET request ke API
 
     if (response.statusCode == 200) {
-      logger.i('Berhasil fetch data');
-      final res = json.decode(response.body);
-      final data = res['data'];
+      // Jika response status code adalah 200 (berhasil)
+      logger.i(
+          'Berhasil fetch data'); // Log untuk menandai berhasilnya pengambilan data senjata dari API
+      final res = json.decode(response.body); // Decode data JSON dari response
+      final data = res['data']; // Ambil data senjata dari hasil decode
 
-      return data;
+      return data; // Kembalikan data senjata
     } else {
+      // Jika response status code tidak 200 (gagal)
       logger.e(
         'Error!',
-        error: 'Terjadi kesalahan saat fetch data',
+        error:
+            'Terjadi kesalahan saat fetch data', // Log error untuk menandai kesalahan saat pengambilan data senjata dari API
       );
 
-      throw Exception('Failed to fetch data');
+      throw Exception(
+          'Failed to fetch data'); // Jika fetch data senjata gagal, throw exception dengan pesan "Failed to fetch data"
     }
   }
 
+  // Fungsi untuk mengubah format judul statistik (dari camel case menjadi judul yang lebih ramah)
   String formatStatsTitle(String key) {
     final words = key.replaceAllMapped(
         RegExp(r'(?<=[a-z])[A-Z]'), (match) => ' ${match.group(0)!}');
     return words[0].toUpperCase() + words.substring(1);
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(
-          displayName,
+          displayName, // Tampilkan nama senjata pada judul AppBar
           style: TextStyle(
             color: redColor,
-            fontWeight: FontWeight.bold,
+            // Warna teks judul AppBar (sesuai dengan nilai konstanta redColor)
+            fontWeight:
+                FontWeight.bold, // Teks judul AppBar akan ditebalkan (bold)
           ),
         ),
         iconTheme: IconThemeData(
-          color: redColor,
+          color:
+              redColor, // Warna icon (back button) di AppBar (sesuai dengan nilai konstanta redColor)
         ),
-        centerTitle: true,
-        backgroundColor: Colors.white,
+        centerTitle: true, // Judul AppBar berada di tengah
+        backgroundColor: Colors.white, // Warna latar belakang AppBar (putih)
       ),
       body: FutureBuilder<Map<String, dynamic>>(
         future: fetchData(),
+        // Panggil fungsi fetchData() untuk mengambil data senjata dari API
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
+            // Jika masih dalam proses fetch data dari API
             return Center(
               child: LoadingAnimationWidget.prograssiveDots(
                 color: redColor,
-                size: 25,
+                // Warna loading animation (sesuai dengan nilai konstanta redColor)
+                size: 25, // Ukuran loading animation
               ),
             );
           } else if (snapshot.hasError) {
+            // Jika terjadi error saat fetch API
             return Center(
-              child: Text('Error : ${snapshot.error}'),
+              child: Text('Error : ${snapshot.error}'), // Tampilkan pesan error
             );
           } else {
-            final weaponData = snapshot.data!;
+            final weaponData =
+                snapshot.data!; // Ambil data senjata dari snapshot
 
             return Container(
               height: MediaQuery.of(context).size.height,
@@ -91,11 +112,13 @@ class GunDetailScreen extends StatelessWidget {
                   children: [
                     Container(
                       color: Colors.grey,
+                      // Warna latar belakang container gambar senjata (abu-abu)
                       child: Align(
                         alignment: Alignment.center,
                         child: Image.network(
                           weaponData['displayIcon'],
-                          height: 200,
+                          // Tampilkan gambar senjata dari URL displayIcon
+                          height: 200, // Ukuran tinggi gambar senjata
                         ),
                       ),
                     ),
@@ -104,18 +127,24 @@ class GunDetailScreen extends StatelessWidget {
                     ),
                     GunShopCard(
                       gunName: displayName,
+                      // Nama senjata yang akan ditampilkan pada GunShopCard
                       gunPrice: weaponData['shopData']['cost'],
-                      gunCategory: weaponData['shopData']['category'],
+                      // Harga senjata yang akan ditampilkan pada GunShopCard
+                      gunCategory: weaponData['shopData'][
+                          'category'], // Kategori senjata yang akan ditampilkan pada GunShopCard
                     ),
                     const SizedBox(
                       height: 20,
                     ),
                     Text(
-                      'Stats',
+                      'Stats', // Teks "Stats"
                       style: TextStyle(
                           color: redColor,
+                          // Warna teks "Stats" (sesuai dengan nilai konstanta redColor)
                           fontSize: 20,
-                          fontWeight: FontWeight.bold),
+                          // Ukuran teks "Stats"
+                          fontWeight: FontWeight
+                              .bold), // Teks "Stats" akan ditebalkan (bold)
                     ),
                     const SizedBox(
                       height: 10,
@@ -124,16 +153,20 @@ class GunDetailScreen extends StatelessWidget {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemCount: 6,
+                      // Jumlah statistik senjata yang akan ditampilkan (disesuaikan sesuai data)
                       itemBuilder: (context, index) {
                         final statsKeys =
                             weaponData['weaponStats'].keys.toList();
-                        final statsTitle = formatStatsTitle(statsKeys[index]);
-                        final statsValue =
-                            weaponData['weaponStats'][statsKeys[index]];
+                        final statsTitle = formatStatsTitle(
+                            statsKeys[index]); // Ubah format judul statistik
+                        final statsValue = weaponData['weaponStats'][statsKeys[
+                            index]]; // Ambil nilai statistik berdasarkan index
 
                         return GunStatsCard(
                           statsTitle: statsTitle,
-                          statsNumber: statsValue.toString(),
+                          // Judul statistik yang akan ditampilkan pada GunStatsCard
+                          statsNumber: statsValue
+                              .toString(), // Nilai statistik yang akan ditampilkan pada GunStatsCard
                         );
                       },
                     ),
@@ -148,45 +181,54 @@ class GunDetailScreen extends StatelessWidget {
   }
 }
 
+// Widget untuk menampilkan statistik senjata pada GunDetailScreen
 class GunStatsCard extends StatelessWidget {
   final String statsTitle;
   final String statsNumber;
 
-  const GunStatsCard({required this.statsTitle, required this.statsNumber});
+  const GunStatsCard({
+    required this.statsTitle,
+    required this.statsNumber,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
+      width: MediaQuery.of(context)
+          .size
+          .width, // Lebar kontainer sesuai dengan lebar layar
       padding: EdgeInsets.symmetric(
         horizontal: 16.0,
       ),
       child: Center(
         child: Card(
-          elevation: 0,
+          elevation: 0, // Tidak ada bayangan pada Card
           shape: Border(
             bottom: BorderSide(
               color: redColor,
-              width: 2.0,
+              // Warna garis bawah pada GunStatsCard (sesuai dengan nilai konstanta redColor)
+              width: 2.0, // Ketebalan garis bawah pada GunStatsCard
             ),
           ),
           child: Container(
-            height: 50,
+            height: 50, // Tinggi kontainer GunStatsCard
             padding: EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  statsTitle,
+                  statsTitle, // Tampilkan judul statistik pada GunStatsCard
                   style: TextStyle(
                     color: redColor,
-                    fontSize: 16,
+                    // Warna teks judul statistik (sesuai dengan nilai konstanta redColor)
+                    fontSize: 16, // Ukuran teks judul statistik
                   ),
                 ),
                 Text(
-                  statsNumber,
+                  statsNumber, // Tampilkan nilai statistik pada GunStatsCard
                   style: TextStyle(
-                    color: redColor,
+                    color:
+                        redColor, // Warna teks nilai statistik (sesuai dengan nilai konstanta redColor)
                   ),
                 ),
               ],
@@ -198,6 +240,7 @@ class GunStatsCard extends StatelessWidget {
   }
 }
 
+// Widget untuk menampilkan informasi senjata pada GunDetailScreen
 class GunShopCard extends StatelessWidget {
   final String gunName;
   final int gunPrice;
@@ -209,11 +252,12 @@ class GunShopCard extends StatelessWidget {
     required this.gunCategory,
   });
 
+  @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Card(
-        elevation: 4,
+        elevation: 4, // Ketinggian Card (bayangan)
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 15.0,
@@ -227,19 +271,24 @@ class GunShopCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      gunName,
+                      gunName, // Tampilkan nama senjata pada GunShopCard
                       style: TextStyle(
                         color: redColor,
+                        // Warna teks nama senjata (sesuai dengan nilai konstanta redColor)
                         fontSize: 20,
-                        fontWeight: FontWeight.bold,
+                        // Ukuran teks nama senjata
+                        fontWeight: FontWeight
+                            .bold, // Teks nama senjata akan ditebalkan (bold)
                       ),
                       textAlign: TextAlign.left,
                     ),
                     Text(
                       gunCategory,
+                      // Tampilkan kategori senjata pada GunShopCard
                       style: TextStyle(
                         color: redColor,
-                        fontSize: 12,
+                        // Warna teks kategori senjata (sesuai dengan nilai konstanta redColor)
+                        fontSize: 12, // Ukuran teks kategori senjata
                       ),
                     ),
                   ],
@@ -247,7 +296,11 @@ class GunShopCard extends StatelessWidget {
               ),
               Text(
                 '${gunPrice} VP',
-                style: TextStyle(color: redColor, fontSize: 16),
+                // Tampilkan harga senjata dalam bentuk 'VP' (Valorant Points) pada GunShopCard
+                style: TextStyle(
+                  color: redColor,
+                  fontSize: 16,
+                ), // Warna dan ukuran teks harga (sesuai dengan nilai konstanta redColor)
               ),
             ],
           ),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class ContentWidget extends StatelessWidget {
-  final String title;
-  final String description;
+  final String title; // Variabel untuk menyimpan judul konten
+  final String description; // Variabel untuk menyimpan deskripsi konten
 
   ContentWidget({required this.title, required this.description});
 
@@ -10,28 +10,32 @@ class ContentWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      // Konten dalam Column akan disusun dari kiri ke kanan
       children: [
         Text(
-          title,
+          title, // Tampilkan judul konten
           style: TextStyle(
-            color: Color(0xFF808080),
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
+            color: Color(0xFF808080), // Warna teks judul (abu-abu muda)
+            fontSize: 24, // Ukuran font judul
+            fontWeight: FontWeight.bold, // Teks judul akan ditebalkan (bold)
           ),
         ),
         SizedBox(
-          height: 12,
+          height:
+              12, // Spacer (spasi vertikal) sebanyak 12 piksel antara judul dan deskripsi
         ),
         Text(
-          description,
+          description, // Tampilkan deskripsi konten
           style: TextStyle(
-            color: Color(0xFF808080),
-            fontSize: 14,
-            letterSpacing: 1,
+            color: Color(0xFF808080), // Warna teks deskripsi (abu-abu muda)
+            fontSize: 14, // Ukuran font deskripsi
+            letterSpacing:
+                1, // Spasi antar huruf pada deskripsi (menggunakan nilai 1 untuk sedikit spasi)
           ),
         ),
         SizedBox(
-          height: 15,
+          height:
+              15, // Spacer (spasi vertikal) sebanyak 15 piksel setelah deskripsi
         ),
       ],
     );

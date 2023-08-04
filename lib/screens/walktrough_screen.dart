@@ -5,10 +5,13 @@ import 'package:valorant_app/screens/home_screen.dart';
 
 class WalktroughScreen extends StatelessWidget {
   final List<OnbordingData> list = [
+    // Data untuk layar onboarding pertama
     OnbordingData(
-      image: AssetImage("images/pic1.png"),
+      image: const AssetImage(
+        'assets/images/Walktrough_Screen_1.jpg',
+      ),
       titleText: Text(
-        "Welcome!",
+        "Selamat Datang!",
         style: TextStyle(
           color: redColor,
           fontSize: 26,
@@ -24,10 +27,13 @@ class WalktroughScreen extends StatelessWidget {
         textAlign: TextAlign.center,
       ),
     ),
+    // Data untuk layar onboarding kedua
     OnbordingData(
-      image: AssetImage("images/pic2.png"),
+      image: const AssetImage(
+        'assets/images/Walktrough_Screen_2.jpg',
+      ),
       titleText: Text(
-        "Start Your Journey Now!",
+        "Mulai Perjalananmu Sekarang!",
         style: TextStyle(
           color: redColor,
           fontSize: 26,
@@ -48,36 +54,42 @@ class WalktroughScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IntroScreen(
+      // Menggunakan data list yang telah didefinisikan di atas
       onbordingDataList: list,
+      // Menentukan warna latar belakang untuk setiap layar onboarding
       colors: [
         darkGrayColor,
         darkGrayColor,
       ],
+      // Menentukan rute halaman yang akan dituju setelah proses onboarding selesai
       pageRoute: MaterialPageRoute(
         builder: (context) => HomeScreen(),
       ),
+      // Menyesuaikan gaya tombol Next, Got It, dan Skip
       nextButton: Text(
-        "NEXT",
+        "LANJUT",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       lastButton: Text(
-        "GOT IT",
+        "SELESAI",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       skipButton: Text(
-        "SKIP",
+        "LEWATI",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,
         ),
       ),
+      // Menentukan warna dot aktif pada indikator paginasi
       selectedDotColor: redColor,
+      // Menentukan warna dot tidak aktif pada indikator paginasi
       unSelectdDotColor: Color(0xFF808080),
     );
   }
