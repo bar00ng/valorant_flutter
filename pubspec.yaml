@@ -24,6 +24,7 @@ dependencies:
   animated_bottom_navigation_bar: ^1.2.0
   animated_splash_screen: ^1.3.0
   cupertino_icons: ^1.0.2
+  dio: ^5.3.2
   flutter:
     sdk: flutter
   flutter_walkthrough_screen: ^2.0.2
@@ -44,7 +45,7 @@ flutter:
     - assets/images/splash_logo.png
     - assets/images/Walktrough_Screen_1.jpg
     - assets/images/Walktrough_Screen_2.jpg
-  
+
   fonts:
     - family: Poppins
       fonts:

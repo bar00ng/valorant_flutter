@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'
-    as http; // Package http untuk melakukan HTTP request
 import 'package:loading_animation_widget/loading_animation_widget.dart'; // Package untuk menampilkan animasi loading
 import 'package:logger/logger.dart'; // Package logger untuk melakukan logging
-import 'dart:convert'; // Package untuk encoding/decoding JSON data
+import 'package:dio/dio.dart';
 
 import 'package:valorant_app/data/constant.dart'; // Import file constant.dart yang berisi konstanta seperti warna, ukuran, dll.
 
@@ -29,28 +27,34 @@ class GunDetailScreen extends StatelessWidget {
         'https://valorant-api.com/v1/weapons/$uuid?language=id-ID'; // URL endpoint untuk mengambil data senjata dari API
 
     logger.t(
-        "Start fetch data"); // Log untuk menandai awal pengambilan data senjata dari API
-    final response =
-        await http.get(Uri.parse(request)); // Lakukan HTTP GET request ke API
+        "Start fetch API senjata"); // Log awal pengambilan data weapon dari API
 
-    if (response.statusCode == 200) {
-      // Jika response status code adalah 200 (berhasil)
-      logger.i(
-          'Berhasil fetch data'); // Log untuk menandai berhasilnya pengambilan data senjata dari API
-      final res = json.decode(response.body); // Decode data JSON dari response
-      final data = res['data']; // Ambil data senjata dari hasil decode
+    try {
+      final response = await Dio()
+          .get(request); // Lakukan HTTP GET request ke API menggunakan dio
 
-      return data; // Kembalikan data senjata
-    } else {
-      // Jika response status code tidak 200 (gagal)
-      logger.e(
-        'Error!',
-        error:
-            'Terjadi kesalahan saat fetch data', // Log error untuk menandai kesalahan saat pengambilan data senjata dari API
-      );
+      if (response.statusCode == 200) {
+        // Jika response status code adalah 200 (berhasil)
+        logger.i(
+            'Berhasil fetch API senjata'); // Log berhasilnya pengambilan data weapon dari API
+        final res =
+            response.data; // Response data dari API sudah dalam bentuk JSON
+        final data = res['data']; // Ambil data weapon dari hasil decode
 
+        return data; // Kembalikan data weapon
+      } else {
+        // Jika response status code tidak 200 (gagal)
+        logger.e('Error!',
+            error:
+                'Terjadi kesalahan saat fetch API senjata'); // Log error saat pengambilan data weapon dari API
+
+        throw Exception(
+            'Failed to load API'); // Jika fetch API gagal, throw exception dengan pesan "Failed to load API"
+      }
+    } catch (e) {
+      logger.e('Error!', error: e.toString());
       throw Exception(
-          'Failed to fetch data'); // Jika fetch data senjata gagal, throw exception dengan pesan "Failed to fetch data"
+          'Failed to load API'); // Jika fetch API gagal, throw exception dengan pesan "Failed to load API"
     }
   }
 

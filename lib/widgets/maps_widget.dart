@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart'
-    as http; // Package http untuk melakukan HTTP request
 import 'package:valorant_app/data/constant.dart'; // Import file constant.dart yang berisi konstanta seperti warna, ukuran, dll.
 import 'package:logger/logger.dart'; // Package logger untuk melakukan logging
-import 'dart:convert'; // Package untuk encoding/decoding JSON data
 import 'package:valorant_app/widgets/content_widget.dart'; // Import widget ContentWidget yang akan menampilkan judul dan deskripsi
 import 'package:loading_animation_widget/loading_animation_widget.dart'; // Package untuk menampilkan animasi loading
+import 'package:dio/dio.dart';
 
 var logger = Logger(
   printer: PrettyPrinter(
@@ -20,25 +18,33 @@ Future<List<dynamic>> fetchData() async {
 
   logger.t(
       "Start fetch API maps"); // Log untuk menandai awal pengambilan data peta dari API
-  final response =
-      await http.get(Uri.parse(request)); // Lakukan HTTP GET request ke API
 
-  if (response.statusCode == 200) {
-    // Jika response status code adalah 200 (berhasil)
-    logger.i(
-        'Berhasil fetch API maps'); // Log untuk menandai berhasilnya pengambilan data peta dari API
-    final res = json.decode(response.body); // Decode data JSON dari response
-    final data = res['data']; // Ambil data peta dari hasil decode
+  try {
+    final response =
+        await Dio().get(request); // Lakukan HTTP GET request ke API using dio
 
-    return data; // Kembalikan data peta
-  } else {
-    // Jika response status code tidak 200 (gagal)
-    logger.e(
-      'Error!',
-      error:
-          'Terjadi kesalahan saat fetch API maps', // Log error untuk menandai kesalahan saat pengambilan data peta dari API
-    );
+    if (response.statusCode == 200) {
+      // Jika response status code adalah 200 (berhasil)
+      logger.i(
+          'Berhasil fetch API maps'); // Log untuk menandai berhasilnya pengambilan data peta dari API
+      final res =
+          response.data; // Response data from Dio is already decoded JSON
+      final data = res['data']; // Ambil data peta dari hasil decode
 
+      return data; // Kembalikan data peta
+    } else {
+      // Jika response status code tidak 200 (gagal)
+      logger.e(
+        'Error!',
+        error:
+            'Terjadi kesalahan saat fetch API maps', // Log error untuk menandai kesalahan saat pengambilan data peta dari API
+      );
+
+      throw Exception(
+          'Failed to load API'); // Jika fetch API gagal, throw exception dengan pesan "Failed to load API"
+    }
+  } catch (e) {
+    logger.e('Error!', error: e.toString());
     throw Exception(
         'Failed to load API'); // Jika fetch API gagal, throw exception dengan pesan "Failed to load API"
   }
