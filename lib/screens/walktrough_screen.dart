@@ -11,20 +11,15 @@ class WalktroughScreen extends StatelessWidget {
         'assets/images/Walktrough_Screen_1.jpg',
       ),
       titleText: Text(
-        "Welcome!",
+        "Welcome to Valorant Verum!",
         style: TextStyle(
           color: redColor,
           fontSize: 26,
           fontWeight: FontWeight.bold,
         ),
       ),
-      descText: Text(
-        "Selamat datang di aplikasi Valorant! Mencari informasi seputar Valorant tidak pernah semudah ini!",
-        style: TextStyle(
-          fontSize: 16,
-          color: darkGrayColor,
-        ),
-        textAlign: TextAlign.center,
+      descText: const Text(
+        '',
       ),
     ),
     // Data untuk layar onboarding kedua
@@ -40,57 +35,55 @@ class WalktroughScreen extends StatelessWidget {
           fontWeight: FontWeight.bold,
         ),
       ),
-      descText: Text(
-        "Segeralah mulai perjalananmu!",
-        style: TextStyle(
-          fontSize: 16,
-          color: darkGrayColor,
-        ),
-        textAlign: TextAlign.center,
+      descText: const Text(
+        '',
       ),
     ),
   ];
 
   @override
   Widget build(BuildContext context) {
-    return IntroScreen(
-      // Menggunakan data list yang telah didefinisikan di atas
-      onbordingDataList: list,
-      // Menentukan warna latar belakang untuk setiap layar onboarding
-      colors: [
-        darkGrayColor,
-        darkGrayColor,
-      ],
-      // Menentukan rute halaman yang akan dituju setelah proses onboarding selesai
-      pageRoute: MaterialPageRoute(
-        builder: (context) => HomeScreen(),
-      ),
-      // Menyesuaikan gaya tombol Next, Got It, dan Skip
-      nextButton: Text(
-        "Next",
-        style: TextStyle(
-          color: redColor,
-          fontWeight: FontWeight.bold,
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: IntroScreen(
+        // Menggunakan data list yang telah didefinisikan di atas
+        onbordingDataList: list,
+        // Menentukan warna latar belakang untuk setiap layar onboarding
+        colors: [
+          darkGrayColor,
+          darkGrayColor,
+        ],
+        // Menentukan rute halaman yang akan dituju setelah proses onboarding selesai
+        pageRoute: MaterialPageRoute(
+          builder: (context) => HomeScreen(),
         ),
-      ),
-      lastButton: Text(
-        "Got It",
-        style: TextStyle(
-          color: redColor,
-          fontWeight: FontWeight.bold,
+        // Menyesuaikan gaya tombol Next, Got It, dan Skip
+        nextButton: Text(
+          "Next",
+          style: TextStyle(
+            color: redColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
-      skipButton: Text(
-        "Skip",
-        style: TextStyle(
-          color: redColor,
-          fontWeight: FontWeight.bold,
+        lastButton: Text(
+          "Got It",
+          style: TextStyle(
+            color: redColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
+        skipButton: Text(
+          "Skip",
+          style: TextStyle(
+            color: redColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        // Menentukan warna dot aktif pada indikator paginasi
+        selectedDotColor: redColor,
+        // Menentukan warna dot tidak aktif pada indikator paginasi
+        unSelectdDotColor: const Color(0xFF808080),
       ),
-      // Menentukan warna dot aktif pada indikator paginasi
-      selectedDotColor: redColor,
-      // Menentukan warna dot tidak aktif pada indikator paginasi
-      unSelectdDotColor: Color(0xFF808080),
     );
   }
 }
