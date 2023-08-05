@@ -14,26 +14,26 @@ class ContentWidget extends StatelessWidget {
       children: [
         Text(
           title, // Tampilkan judul konten
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF808080), // Warna teks judul (abu-abu muda)
             fontSize: 24, // Ukuran font judul
             fontWeight: FontWeight.bold, // Teks judul akan ditebalkan (bold)
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height:
               12, // Spacer (spasi vertikal) sebanyak 12 piksel antara judul dan deskripsi
         ),
         Text(
           description, // Tampilkan deskripsi konten
-          style: TextStyle(
+          style: const TextStyle(
             color: Color(0xFF808080), // Warna teks deskripsi (abu-abu muda)
             fontSize: 14, // Ukuran font deskripsi
             letterSpacing:
                 1, // Spasi antar huruf pada deskripsi (menggunakan nilai 1 untuk sedikit spasi)
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height:
               15, // Spacer (spasi vertikal) sebanyak 15 piksel setelah deskripsi
         ),

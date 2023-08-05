@@ -92,8 +92,7 @@ class GunsWidget extends StatelessWidget {
                         snapshot.data!; // Ambil data senjata dari snapshot
 
                     return ListView.builder(
-                      itemCount:
-                          guns.length, // Tampilkan semua senjata (misalnya)
+                      itemCount: 17, // Tampilkan hanya 17 senjata (misalnya)
                       itemBuilder: (context, index) {
                         final gun = guns[
                             index]; // Ambil data senjata berdasarkan indeks
@@ -121,7 +120,7 @@ class GunsWidget extends StatelessWidget {
                             title: Text(
                               displayName,
                               // Tampilkan nama senjata pada ListTile
-                              style: TextStyle(
+                              style: const TextStyle(
                                 color:
                                     Colors.grey, // Warna teks senjata (abu-abu)
                               ),

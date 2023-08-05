@@ -17,7 +17,7 @@ class MapDetailScreen extends StatelessWidget {
   final String uuid;
   final String displayName;
 
-  MapDetailScreen({
+  const MapDetailScreen({
     required this.uuid,
     required this.displayName,
   });

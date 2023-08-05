@@ -6,7 +6,7 @@ class SkillDetailScreen extends StatelessWidget {
   final String skillDisplayIcon;
   final String skillDescription;
 
-  SkillDetailScreen({
+  const SkillDetailScreen({
     required this.skillDescription,
     required this.skillDisplayIcon,
     required this.skillName,

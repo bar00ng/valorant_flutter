@@ -18,7 +18,7 @@ class GunDetailScreen extends StatelessWidget {
   final String uuid;
   final String displayName;
 
-  GunDetailScreen({
+  const GunDetailScreen({
     required this.uuid,
     required this.displayName,
   });
@@ -197,7 +197,7 @@ class GunStatsCard extends StatelessWidget {
       width: MediaQuery.of(context)
           .size
           .width, // Lebar kontainer sesuai dengan lebar layar
-      padding: EdgeInsets.symmetric(
+      padding: const EdgeInsets.symmetric(
         horizontal: 16.0,
       ),
       child: Center(
@@ -212,7 +212,7 @@ class GunStatsCard extends StatelessWidget {
           ),
           child: Container(
             height: 50, // Tinggi kontainer GunStatsCard
-            padding: EdgeInsets.symmetric(horizontal: 16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -246,7 +246,7 @@ class GunShopCard extends StatelessWidget {
   final int gunPrice;
   final String gunCategory;
 
-  GunShopCard({
+  const GunShopCard({
     required this.gunName,
     required this.gunPrice,
     required this.gunCategory,

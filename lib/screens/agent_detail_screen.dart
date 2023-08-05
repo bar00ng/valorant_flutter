@@ -20,7 +20,10 @@ class AgentDetailScreen extends StatelessWidget {
   final String uuid;
   final String displayName;
 
-  AgentDetailScreen({required this.uuid, required this.displayName});
+  const AgentDetailScreen({
+    required this.uuid,
+    required this.displayName,
+  });
 
   Future<Map<String, dynamic>> fetchData() async {
     String request =
