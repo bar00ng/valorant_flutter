@@ -11,7 +11,7 @@ class WalktroughScreen extends StatelessWidget {
         'assets/images/Walktrough_Screen_1.jpg',
       ),
       titleText: Text(
-        "Selamat Datang!",
+        "Welcome!",
         style: TextStyle(
           color: redColor,
           fontSize: 26,
@@ -33,7 +33,7 @@ class WalktroughScreen extends StatelessWidget {
         'assets/images/Walktrough_Screen_2.jpg',
       ),
       titleText: Text(
-        "Mulai Perjalananmu Sekarang!",
+        "Start Your Journey!",
         style: TextStyle(
           color: redColor,
           fontSize: 26,
@@ -67,21 +67,21 @@ class WalktroughScreen extends StatelessWidget {
       ),
       // Menyesuaikan gaya tombol Next, Got It, dan Skip
       nextButton: Text(
-        "LANJUT",
+        "Next",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       lastButton: Text(
-        "SELESAI",
+        "Got It",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,
         ),
       ),
       skipButton: Text(
-        "LEWATI",
+        "Skip",
         style: TextStyle(
           color: redColor,
           fontWeight: FontWeight.bold,

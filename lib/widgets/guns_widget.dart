@@ -92,7 +92,8 @@ class GunsWidget extends StatelessWidget {
                         snapshot.data!; // Ambil data senjata dari snapshot
 
                     return ListView.builder(
-                      itemCount: 5, // Tampilkan hanya 5 senjata (misalnya)
+                      itemCount:
+                          guns.length, // Tampilkan semua senjata (misalnya)
                       itemBuilder: (context, index) {
                         final gun = guns[
                             index]; // Ambil data senjata berdasarkan indeks

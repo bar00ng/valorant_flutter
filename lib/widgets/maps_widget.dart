@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart'
     as http; // Package http untuk melakukan HTTP request
-import 'package:page_transition/page_transition.dart'; // Package untuk mengatur tipe transisi antar halaman
 import 'package:valorant_app/data/constant.dart'; // Import file constant.dart yang berisi konstanta seperti warna, ukuran, dll.
 import 'package:logger/logger.dart'; // Package logger untuk melakukan logging
 import 'dart:convert'; // Package untuk encoding/decoding JSON data
-import 'package:valorant_app/screens/map_detail_screen.dart'; // Import halaman MapDetailScreen yang akan ditampilkan saat detail peta dipilih
 import 'package:valorant_app/widgets/content_widget.dart'; // Import widget ContentWidget yang akan menampilkan judul dan deskripsi
 import 'package:loading_animation_widget/loading_animation_widget.dart'; // Package untuk menampilkan animasi loading
 
@@ -60,7 +58,7 @@ class MapsWidget extends StatelessWidget {
                 'Kenali playground kamu sekarang juga!', // Deskripsi dari ContentWidget
           ),
           Container(
-            height: 250,
+            height: 300,
             child: FutureBuilder<List<dynamic>>(
               future: fetchData(),
               // Panggil fungsi fetchData() untuk mengambil data peta dari API
@@ -89,7 +87,7 @@ class MapsWidget extends StatelessWidget {
                   final maps = snapshot.data!; // Ambil data peta dari snapshot
 
                   return ListView.builder(
-                    itemCount: 5, // Tampilkan hanya 5 peta (misalnya)
+                    itemCount: maps.length, // Tampilkan hanya 5 peta (misalnya)
                     itemBuilder: (context, index) {
                       final map =
                           maps[index]; // Ambil data peta berdasarkan indeks
@@ -97,58 +95,41 @@ class MapsWidget extends StatelessWidget {
                       return Container(
                         width: double.infinity,
                         padding: EdgeInsets.all(8.0),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.fade,
-                                // Tipe transisi antar halaman saat berpindah ke halaman MapDetailScreen
-                                child: MapDetailScreen(
-                                  uuid: map['uuid'],
-                                  // Kirim UUID peta ke halaman MapDetailScreen
-                                  displayName: map[
-                                      'displayName'], // Kirim nama peta ke halaman MapDetailScreen
-                                ),
-                              ),
-                            );
-                          },
-                          child: Card(
-                            elevation: 0, // Tidak ada bayangan pada Card
-                            color: Colors.grey, // Warna latar belakang Card
-                            child: Stack(
-                              children: [
-                                ColorFiltered(
-                                  colorFilter: ColorFilter.mode(
-                                      Colors.black.withOpacity(0.5),
-                                      BlendMode.srcATop),
-                                  child: Image.network(
-                                    map['splash'],
-                                    // Tampilkan gambar peta dari URL splash
-                                    width: double.infinity,
-                                    height: 150,
-                                    fit: BoxFit
-                                        .cover, // Tampilkan gambar secara proporsional sesuai ukuran container
-                                  ),
-                                ),
-                                Container(
+                        child: Card(
+                          elevation: 0, // Tidak ada bayangan pada Card
+                          color: Colors.grey, // Warna latar belakang Card
+                          child: Stack(
+                            children: [
+                              ColorFiltered(
+                                colorFilter: ColorFilter.mode(
+                                    Colors.black.withOpacity(0.5),
+                                    BlendMode.srcATop),
+                                child: Image.network(
+                                  map['splash'],
+                                  // Tampilkan gambar peta dari URL splash
                                   width: double.infinity,
                                   height: 150,
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    map['displayName'],
-                                    // Tampilkan nama peta di tengah gambar
-                                    style: TextStyle(
-                                      fontSize: 14,
-                                      color: redColor,
-                                      // Warna teks nama peta (sesuai dengan nilai konstanta redColor)
-                                      fontWeight: FontWeight
-                                          .bold, // Teks nama peta akan ditebalkan (bold)
-                                    ),
+                                  fit: BoxFit
+                                      .cover, // Tampilkan gambar secara proporsional sesuai ukuran container
+                                ),
+                              ),
+                              Container(
+                                width: double.infinity,
+                                height: 150,
+                                alignment: Alignment.center,
+                                child: Text(
+                                  map['displayName'],
+                                  // Tampilkan nama peta di tengah gambar
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    color: redColor,
+                                    // Warna teks nama peta (sesuai dengan nilai konstanta redColor)
+                                    fontWeight: FontWeight
+                                        .bold, // Teks nama peta akan ditebalkan (bold)
                                   ),
                                 ),
-                              ],
-                            ),
+                              ),
+                            ],
                           ),
                         ),
                       );

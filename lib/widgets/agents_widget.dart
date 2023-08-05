@@ -87,7 +87,7 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                     _dataAgents[index]['displayIcon']; // URL icon agent
 
                 return Padding(
-                  padding: EdgeInsets.symmetric(
+                  padding: const EdgeInsets.symmetric(
                     horizontal: 8.0,
                   ),
                   child: GestureDetector(
@@ -123,12 +123,12 @@ class _AgentsWidgetState extends State<AgentsWidget> {
                                     .cover, // Tampilkan icon secara proporsional sesuai ukuran container
                               ),
                             ),
-                            SizedBox(height: 3),
+                            const SizedBox(height: 3),
                             Container(
                               width: 150,
                               color: Colors.white,
                               // Warna latar belakang teks nama agent
-                              padding: EdgeInsets.all(
+                              padding: const EdgeInsets.all(
                                 8.0,
                               ),
                               child: Align(
